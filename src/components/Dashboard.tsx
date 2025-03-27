@@ -9,6 +9,10 @@ function Dashboard() {
     navigate(`/tenant/${tenantId}`)
   }
   
+  const handleNewTenantClick = () => {
+    navigate('/new-tenant')
+  }
+  
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
@@ -58,7 +62,7 @@ function Dashboard() {
           </div>
         </div>
         
-        <button className="new-tenant-button">
+        <button className="new-tenant-button" onClick={handleNewTenantClick}>
           New Tenant
         </button>
       </div>
