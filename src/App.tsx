@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import SplashPage from './components/SplashPage'
 import Dashboard from './components/Dashboard'
+import TenantDetails from './components/TenantDetails'
 import './App.css'
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SplashPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/tenant/:tenantId" element={<TenantDetails />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
