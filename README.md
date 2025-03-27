@@ -1,54 +1,116 @@
-# React + TypeScript + Vite
+# CollectAI - Debt Collection Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive React application for managing debt collection processes. This application provides property managers with an interface to track tenant delinquencies, view detailed tenant information, and manage collection activities.
 
-Currently, two official plugins are available:
+![CollectAI Dashboard](https://via.placeholder.com/600x400?text=CollectAI+Dashboard)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **User Authentication**: Secure login system
+- **Dashboard View**: Overview of all delinquent tenants with total amount owed
+- **Tenant Details**: Detailed view of each tenant's payment history and status
+- **AI-Generated Insights**: Automatic summaries and recommendations for collection efforts
+- **Action Tools**: Built-in communication options for contacting tenants
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **React**: UI library
+- **TypeScript**: Type safety
+- **Vite**: Build tool and development server
+- **React Router**: Client-side routing
+- **CSS3**: Custom styling (no external UI libraries)
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+- Node.js (v14.0.0 or later)
+- npm (v6.0.0 or later)
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/debt-collection-fe.git
+   cd debt-collection-fe
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+## Running Locally
+
+1. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+2. Open your browser and navigate to:
+   ```
+   http://localhost:5173
+   ```
+
+## Project Structure
+
+```
+debt-collection-fe/
+├── public/                 # Static files
+├── src/                    # Source files
+│   ├── components/         # React components
+│   │   ├── Dashboard.tsx   # Dashboard view
+│   │   ├── SplashPage.tsx  # Landing page
+│   │   └── TenantDetails.tsx # Tenant details view
+│   ├── icons/              # SVG icons
+│   ├── App.css             # Global styles
+│   ├── App.tsx             # Main application component
+│   ├── index.css           # Base styles
+│   └── main.tsx            # Entry point
+├── index.html              # HTML template
+├── package.json            # Project dependencies
+├── tsconfig.json           # TypeScript configuration
+└── vite.config.ts          # Vite configuration
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Usage Flow
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. **Splash Page**: Initial landing page with the CollectAI logo and sign-in button
+2. **Dashboard**: View all delinquent tenants and total amount owed
+3. **Tenant Details**: Click on any tenant to view their detailed information
+4. **Actions**: Use the action buttons to contact tenants or manage their records
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+## Building for Production
+
+To create a production build:
+
+```bash
+npm run build
 ```
+
+The build artifacts will be stored in the `dist/` directory.
+
+## Preview Production Build
+
+To preview the production build locally:
+
+```bash
+npm run preview
+```
+
+## Development Notes
+
+- This project uses React Router for navigation between pages
+- All styles are contained in App.css with no external UI libraries
+- Data is currently hardcoded but designed to be easily connected to a backend API
+
+## License
+
+[MIT](LICENSE)
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
