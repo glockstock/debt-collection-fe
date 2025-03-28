@@ -18,7 +18,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 2rem;
+  padding: 2rem 1rem;
+}
+
+@media (max-width: 480px) {
+  #root {
+    padding: 1rem 0.5rem;
+  }
 }
 
 /* App container styles */
@@ -35,6 +41,14 @@ body {
   width: 100%;
 }
 
+@media (max-width: 480px) {
+  .app-container {
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+    border-radius: 8px;
+  }
+}
+
 /* Dashboard styles */
 .dashboard-container {
   width: 100%;
@@ -46,10 +60,28 @@ body {
   margin-bottom: 2rem;
 }
 
+@media (max-width: 480px) {
+  .dashboard-container {
+    border-radius: 0;
+    box-shadow: none;
+    max-width: 100%;
+  }
+}
+
 .dashboard-header {
   background-color: #1a3040;
   color: white;
   padding: 1.5rem;
+}
+
+@media (max-width: 480px) {
+  .dashboard-header {
+    padding: 1.25rem 1rem;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 1.7rem;
+  }
 }
 
 .dashboard-header h1 {
@@ -69,6 +101,13 @@ body {
   font-size: 1.1rem;
 }
 
+@media (max-width: 480px) {
+  .company-header {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+}
+
 .building-icon {
   color: #555;
 }
@@ -78,6 +117,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+@media (max-width: 480px) {
+  .content-container {
+    padding: 1.25rem 1rem;
+    gap: 1.25rem;
+  }
 }
 
 .back-link {
@@ -99,6 +145,12 @@ body {
   align-items: center;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid #eee;
+}
+
+@media (max-width: 480px) {
+  .delinquencies-header h2 {
+    font-size: 1.1rem;
+  }
 }
 
 .delinquencies-header h2 {
@@ -125,6 +177,20 @@ body {
 
 .tenant-item:hover {
   background-color: #f9f9f9;
+}
+
+@media (max-width: 480px) {
+  .tenant-item {
+    padding: 0.85rem 0;
+  }
+  
+  .tenant-info h3 {
+    font-size: 0.95rem;
+  }
+  
+  .tenant-info p {
+    font-size: 0.85rem;
+  }
 }
 
 .tenant-info h3 {
@@ -163,11 +229,20 @@ body {
   margin: 1rem auto;
   display: block;
   transition: background-color 0.2s, color 0.2s;
+  touch-action: manipulation;
 }
 
 .new-tenant-button:hover {
   background-color: #1a3040;
   color: white;
+}
+
+@media (max-width: 480px) {
+  .new-tenant-button {
+    max-width: 100%;
+    padding: 0.85rem 1rem;
+    margin: 0.5rem auto;
+  }
 }
 
 /* Tenant details styles */
@@ -178,6 +253,13 @@ body {
   padding-bottom: 0.75rem;
   border-bottom: 1px solid #eee;
   margin: 0;
+}
+
+@media (max-width: 480px) {
+  .tenant-name {
+    font-size: 1.3rem;
+    padding-bottom: 0.6rem;
+  }
 }
 
 .detail-section {
@@ -201,6 +283,12 @@ body {
   gap: 0.5rem;
 }
 
+@media (max-width: 480px) {
+  .detail-section {
+    padding-bottom: 0.85rem;
+  }
+}
+
 .detail-text {
   line-height: 1.5;
   display: block;
@@ -217,6 +305,13 @@ body {
   margin-bottom: 1rem;
 }
 
+@media (max-width: 480px) {
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
 .contact-button {
   flex: 1;
   padding: 0.75rem 0.5rem;
@@ -228,11 +323,19 @@ body {
   cursor: pointer;
   font-size: 0.9rem;
   transition: background-color 0.2s, color 0.2s;
+  touch-action: manipulation;
 }
 
 .contact-button:hover {
   background-color: #1a3040;
   color: white;
+}
+
+@media (max-width: 480px) {
+  .contact-button {
+    width: 100%;
+    padding: 0.85rem 0.5rem;
+  }
 }
 
 .edit-button {
@@ -246,11 +349,18 @@ body {
   font-size: 1rem;
   width: 100%;
   transition: background-color 0.2s, color 0.2s;
+  touch-action: manipulation;
 }
 
 .edit-button:hover {
   background-color: #1a3040;
   color: white;
+}
+
+@media (max-width: 480px) {
+  .edit-button {
+    padding: 0.85rem 1rem;
+  }
 }
 
 .delete-button {
@@ -266,11 +376,18 @@ body {
   margin-top: 0.5rem;
   margin-bottom: 1rem;
   transition: background-color 0.2s, color 0.2s;
+  touch-action: manipulation;
 }
 
 .delete-button:hover {
   background-color: #d32f2f;
   color: white;
+}
+
+@media (max-width: 480px) {
+  .delete-button {
+    padding: 0.85rem 1rem;
+  }
 }
 
 /* New Tenant Form Styles */
@@ -281,10 +398,22 @@ body {
   width: 100%;
 }
 
+@media (max-width: 480px) {
+  .tenant-form {
+    gap: 1rem;
+  }
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+@media (max-width: 480px) {
+  .form-group {
+    gap: 0.4rem;
+  }
 }
 
 .form-group label {
@@ -307,6 +436,13 @@ body {
   box-shadow: 0 0 0 2px rgba(26, 48, 64, 0.1);
 }
 
+@media (max-width: 480px) {
+  .form-input {
+    padding: 0.85rem;
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+}
+
 .create-button {
   padding: 0.75rem 1rem;
   background-color: white;
@@ -319,9 +455,59 @@ body {
   width: 100%;
   margin-top: 1rem;
   transition: background-color 0.2s, color 0.2s;
+  touch-action: manipulation;
 }
 
 .create-button:hover {
   background-color: #1a3040;
   color: white;
+}
+
+@media (max-width: 480px) {
+  .create-button {
+    padding: 0.85rem 1rem;
+    margin-top: 0.75rem;
+  }
+}
+
+/* Add viewport meta tag to ensure proper rendering on mobile devices */
+@media (hover: none) {
+  .tenant-item:hover {
+    background-color: transparent;
+  }
+  
+  .new-tenant-button:hover,
+  .contact-button:hover,
+  .edit-button:hover,
+  .delete-button:hover,
+  .create-button:hover {
+    background-color: white;
+    color: inherit;
+  }
+  
+  .contact-button:hover,
+  .edit-button:hover {
+    color: #1a3040;
+  }
+  
+  .delete-button:hover {
+    color: #d32f2f;
+  }
+  
+  /* Add active states for mobile touch */
+  .tenant-item:active {
+    background-color: #f9f9f9;
+  }
+  
+  .new-tenant-button:active,
+  .contact-button:active,
+  .edit-button:active {
+    background-color: #1a3040;
+    color: white;
+  }
+  
+  .delete-button:active {
+    background-color: #d32f2f;
+    color: white;
+  }
 }
