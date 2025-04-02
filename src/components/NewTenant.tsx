@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../App.css'
 import { Building } from '../icons/Building'
-import { tenantsApi } from '../services/api'
+// Import will be needed when API integration is implemented
+// import { tenantsApi } from '../services/api'
 
 interface TenantFormData {
   first_name: string;
@@ -57,8 +58,9 @@ function NewTenant() {
       // For now, just log the data and navigate back - in a real app, we would call the API
       console.log('Creating new tenant:', formData)
       
-      // In a real implementation, uncomment this code:
+      // In a real implementation, uncomment this code and the import at the top:
       /*
+      // import { tenantsApi } from '../services/api'
       await tenantsApi.createTenant({
         first_name: formData.first_name,
         last_name: formData.last_name,
