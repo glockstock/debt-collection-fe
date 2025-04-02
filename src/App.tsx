@@ -7,7 +7,7 @@ import './App.css'
 
 function App() {
   return (
-    <Router>
+    <Router basename="/debt-collection-fe">
       <Routes>
         <Route path="/" element={<SplashPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
