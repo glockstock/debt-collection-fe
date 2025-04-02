@@ -24,6 +24,9 @@ jobs:
       - name: Install dependencies 📦
         run: npm ci
 
+      - name: Install Axios explicitly 📦
+        run: npm install axios
+
       - name: Build 🏗️
         run: npm run build
         env:

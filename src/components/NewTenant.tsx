@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../App.css'
 import { Building } from '../icons/Building'
-import { apiService } from '../services/api'
+import { tenantsApi } from '../services/api'
 
 interface TenantFormData {
   first_name: string;
@@ -59,7 +59,7 @@ function NewTenant() {
       
       // In a real implementation, uncomment this code:
       /*
-      await apiService.createTenant({
+      await tenantsApi.createTenant({
         first_name: formData.first_name,
         last_name: formData.last_name,
         debt_amount: parseFloat(formData.debt_amount),
