@@ -18,19 +18,23 @@ jobs:
       - name: Setup Node.js 🔧
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'npm'
 
       - name: Install dependencies 📦
         run: npm ci
 
-      - name: Install Axios explicitly 📦
-        run: npm install axios
+      - name: Install additional dependencies 📦
+        run: npm install axios cross-env --save
+
+      - name: Set NODE_OPTIONS env var 🔧
+        run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
 
       - name: Build 🏗️
         run: npm run build
         env:
           VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+          NODE_ENV: production
 
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
