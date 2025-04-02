@@ -89,6 +89,35 @@ npm run build
 
 The build artifacts will be stored in the `dist/` directory.
 
+## Deployment
+
+### Manual Deployment
+
+You can manually deploy the application using:
+
+```bash
+npm run deploy
+```
+
+This script builds the project and deploys it to the gh-pages branch.
+
+### Automatic Deployment with GitHub Actions
+
+This project is configured to automatically deploy to GitHub Pages whenever changes are pushed to the main branch:
+
+1. Push your changes to the main branch
+2. GitHub Actions will automatically:
+   - Build the application
+   - Deploy it to the gh-pages branch
+   - Make it available at: https://glockstock.github.io/debt-collection-fe/
+
+To set up the required environment variables for GitHub Actions:
+
+1. Go to your GitHub repository settings
+2. Navigate to Secrets and variables > Actions
+3. Add the following repository secrets:
+   - `VITE_API_BASE_URL`: Your API base URL
+
 ## Preview Production Build
 
 To preview the production build locally:
