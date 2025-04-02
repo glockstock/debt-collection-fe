@@ -18,14 +18,11 @@ jobs:
       - name: Setup Node.js 🔧
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: 'npm'
 
       - name: Install dependencies 📦
-        run: npm ci
-
-      - name: Install additional dependencies 📦
-        run: npm install axios cross-env --save
+        run: npm install
 
       - name: Set NODE_OPTIONS env var 🔧
         run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
