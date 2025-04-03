@@ -118,6 +118,20 @@ To set up the required environment variables for GitHub Actions:
 3. Add the following repository secrets:
    - `VITE_API_BASE_URL`: Your API base URL
 
+### CORS Proxy Setup
+
+When deploying to GitHub Pages, you may encounter CORS issues when trying to access APIs from different domains. To resolve this, we use a CloudFlare Worker as a CORS proxy:
+
+1. A CloudFlare Worker CORS proxy has been set up in the `cors-proxy/` directory
+2. To deploy the proxy:
+   ```bash
+   cd cors-proxy
+   npm install
+   npm run deploy
+   ```
+3. After deployment, update the `CLOUDFLARE_WORKER_URL` in `src/services/axiosConfig.ts` with your worker URL
+4. For more details, see the README in the `cors-proxy/` directory
+
 ## Preview Production Build
 
 To preview the production build locally:
