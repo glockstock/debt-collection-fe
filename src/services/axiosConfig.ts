@@ -2,9 +2,14 @@ import axios, { InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'ax
 
 // Use proxy URL in development, direct URL in production
 const isDevelopment = import.meta.env.DEV;
+// Set a fallback API URL in case the environment variable is not available
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'https://collect-ai-service-337679415316.us-central1.run.app';
+
 const baseURL = isDevelopment 
   ? '/api' // This will be proxied via Vite
-  : import.meta.env.VITE_API_BASE_URL;
+  : apiBaseUrl;
+
+console.log('API Base URL:', baseURL); // For debugging
 
 // Create a custom Axios instance
 const api = axios.create({
@@ -20,6 +25,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     // You can modify the request config here (e.g., add auth tokens)
+    console.log('Request URL:', config.url); // For debugging
     return config;
   },
   (error: AxiosError) => {

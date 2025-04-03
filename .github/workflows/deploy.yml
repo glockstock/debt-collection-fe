@@ -30,7 +30,8 @@ jobs:
       - name: Build 🏗️
         run: npm run build
         env:
-          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+          # Set a default API URL even if the secret is not configured
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL || 'https://collect-ai-service-337679415316.us-central1.run.app' }}
           NODE_ENV: production
 
       - name: Deploy to GitHub Pages 🚀
