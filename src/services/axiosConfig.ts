@@ -1,13 +1,26 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
-// Use proxy URL in development, direct URL in production
+// Use proxy URL in development, CloudFlare Worker URL in production
 const isDevelopment = import.meta.env.DEV;
-// Set a fallback API URL in case the environment variable is not available
+
+// Set the CloudFlare Worker URL for production
+const CLOUDFLARE_WORKER_URL = 'https://debt-collection-glocke.workers.dev';
+
+// In GitHub Pages (production), use the CloudFlare Worker as a CORS proxy
+const isGitHubPages = !isDevelopment && window.location.hostname.includes('github.io');
+
+// API base URL fallback if environment variable is not set
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'https://collect-ai-service-337679415316.us-central1.run.app';
 
-const baseURL = isDevelopment 
-  ? '/api' // This will be proxied via Vite
-  : apiBaseUrl;
+// Determine the base URL based on the environment
+let baseURL: string;
+if (isDevelopment) {
+  baseURL = '/api'; // This will be proxied via Vite
+} else if (isGitHubPages) {
+  baseURL = CLOUDFLARE_WORKER_URL; // Use CloudFlare Worker for GitHub Pages
+} else {
+  baseURL = apiBaseUrl; // Direct API URL for other production environments
+}
 
 console.log('API Base URL:', baseURL); // For debugging
 
@@ -16,6 +29,8 @@ const api = axios.create({
   baseURL,
   headers: {
     'Content-Type': 'application/json',
+    // Add X-Requested-With header for CORS proxies if on GitHub Pages
+    ...(isGitHubPages ? { 'X-Requested-With': 'XMLHttpRequest' } : {})
   },
   // Add withCredentials if your API requires cookies/authentication
   // withCredentials: true,
