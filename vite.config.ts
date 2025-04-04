@@ -5,13 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    proxy: {
-      '/api': {
-        target: 'https://collect-ai-service-337679415316.us-central1.run.app',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-        secure: false
-      }
-    }
+    port: 8080,
+    host: 'localhost'
   }
 })

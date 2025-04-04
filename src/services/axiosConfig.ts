@@ -1,24 +1,18 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
-// Use proxy URL in development, direct URL in production
-const isDevelopment = import.meta.env.DEV;
-
-// API base URL fallback if environment variable is not set
+// API base URL from environment variable or fallback
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'https://collect-ai-service-337679415316.us-central1.run.app';
 
-// Determine the base URL based on the environment
-const baseURL = isDevelopment ? '/api' : apiBaseUrl;
-
-console.log('API Base URL:', baseURL); // For debugging
+console.log('API Base URL:', apiBaseUrl); // For debugging
 
 // Create a custom Axios instance
 const api = axios.create({
-  baseURL,
+  baseURL: apiBaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },
-  // Add withCredentials if your API requires cookies/authentication
-  // withCredentials: true,
+  // Timeout in milliseconds
+  timeout: 10000,
 });
 
 // Add request interceptor
