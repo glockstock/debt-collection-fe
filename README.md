@@ -25,6 +25,7 @@ A modern, responsive React application for managing debt collection processes. T
 Before you begin, ensure you have the following installed:
 - Node.js (v14.0.0 or later)
 - npm (v6.0.0 or later)
+- Google Cloud SDK (for deployment)
 
 ## Installation
 
@@ -69,7 +70,9 @@ debt-collection-fe/
 ├── index.html              # HTML template
 ├── package.json            # Project dependencies
 ├── tsconfig.json           # TypeScript configuration
-└── vite.config.ts          # Vite configuration
+├── vite.config.ts          # Vite configuration
+├── Dockerfile              # Docker configuration for Google Cloud Run
+└── app.yaml                # Configuration for Google App Engine
 ```
 
 ## Usage Flow
@@ -91,46 +94,64 @@ The build artifacts will be stored in the `dist/` directory.
 
 ## Deployment
 
-### Manual Deployment
+### Google Cloud Deployment Options
 
-You can manually deploy the application using:
+This application can be deployed to Google Cloud using several methods:
+
+#### 1. Google Cloud Run (Recommended)
+
+Deploy as a containerized application with automatic scaling:
 
 ```bash
-npm run deploy
+# Build the application
+npm run build
+
+# Build the Docker image
+gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/debt-collection-fe
+
+# Deploy to Cloud Run
+gcloud run deploy debt-collection-fe \
+  --image gcr.io/YOUR_PROJECT_ID/debt-collection-fe \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated
 ```
 
-This script builds the project and deploys it to the gh-pages branch.
+#### 2. Google App Engine
 
-### Automatic Deployment with GitHub Actions
+Deploy as a standard environment application:
 
-This project is configured to automatically deploy to GitHub Pages whenever changes are pushed to the main branch:
+```bash
+# Build the application
+npm run build
 
-1. Push your changes to the main branch
-2. GitHub Actions will automatically:
-   - Build the application
-   - Deploy it to the gh-pages branch
-   - Make it available at: https://glockstock.github.io/debt-collection-fe/
+# Deploy to App Engine
+gcloud app deploy
+```
 
-To set up the required environment variables for GitHub Actions:
+#### 3. Google Cloud Storage + Load Balancer
 
-1. Go to your GitHub repository settings
-2. Navigate to Secrets and variables > Actions
-3. Add the following repository secrets:
-   - `VITE_API_BASE_URL`: Your API base URL
+For a static site with custom domain:
 
-### CORS Proxy Setup
+```bash
+# Build the application
+npm run build
 
-When deploying to GitHub Pages, you may encounter CORS issues when trying to access APIs from different domains. To resolve this, we use a CloudFlare Worker as a CORS proxy:
+# Create a bucket (if it doesn't exist)
+gsutil mb -l us-central1 gs://YOUR_BUCKET_NAME
 
-1. A CloudFlare Worker CORS proxy has been set up in the `cors-proxy/` directory
-2. To deploy the proxy:
-   ```bash
-   cd cors-proxy
-   npm install
-   npm run deploy
-   ```
-3. After deployment, update the `CLOUDFLARE_WORKER_URL` in `src/services/axiosConfig.ts` with your worker URL
-4. For more details, see the README in the `cors-proxy/` directory
+# Upload the built application
+gsutil -m cp -r dist/* gs://YOUR_BUCKET_NAME
+
+# Make all objects publicly readable
+gsutil -m acl ch -r -u AllUsers:R gs://YOUR_BUCKET_NAME
+```
+
+### Environment Variables
+
+For production deployments, set the following environment variables:
+
+- `VITE_API_BASE_URL`: Your API base URL
 
 ## Preview Production Build
 
@@ -144,7 +165,7 @@ npm run preview
 
 - This project uses React Router for navigation between pages
 - All styles are contained in App.css with no external UI libraries
-- Data is currently hardcoded but designed to be easily connected to a backend API
+- The application connects to a backend API for tenant data
 
 ## License
 

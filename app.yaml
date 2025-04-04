@@ -1,0 +1,17 @@
+runtime: nodejs20
+
+handlers:
+  # Serve all static files with url ending with a file extension
+  - url: /(.*\..+)$
+    static_files: dist/\1
+    upload: dist/(.*\..+)$
+    secure: always
+
+  # Catch all handler to index.html
+  - url: /.*
+    static_files: dist/index.html
+    upload: dist/index.html
+    secure: always
+
+env_variables:
+  VITE_API_BASE_URL: "https://collect-ai-service-337679415316.us-central1.run.app" 

@@ -1,0 +1,27 @@
+# Node.js dependencies:
+node_modules/
+
+# Git and GitHub files:
+.git/
+.github/
+.gitignore
+
+# Development files:
+.env
+.env.local
+.env.development
+.env.test
+*.log
+coverage/
+.vscode/
+.idea/
+
+# Build artifacts (already handled by the deployment process):
+# dist/
+
+# Other files not needed in production:
+README.md
+LICENSE
+*.md
+.DS_Store
+Thumbs.db 
