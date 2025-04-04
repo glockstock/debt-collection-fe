@@ -16,7 +16,9 @@ export const tenantsApi = {
   // Get a single tenant by ID
   getTenantById: async (id: string): Promise<Tenant> => {
     try {
-      return await api.get(`/tenant/get/${id}`);
+      return await api.get('/tenant/get/', { 
+        params: { tenant_id: id } 
+      });
     } catch (error) {
       console.error(`Error fetching tenant with ID ${id}:`, error);
       throw error;
