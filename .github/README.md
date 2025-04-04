@@ -10,7 +10,14 @@ The project is set up to automatically deploy to GitHub Pages whenever changes a
 
 1. When code is pushed to the `main` branch, the GitHub Actions workflow is triggered
 2. The workflow builds the application with the correct base URL for GitHub Pages
-3. The built files are deployed to GitHub Pages automatically
+3. The built files are deployed to the `gh-pages` branch using the JamesIves/github-pages-deploy-action
+4. GitHub Pages serves the content from the `gh-pages` branch
+
+### Important Notes
+
+- The `main` branch contains the source code
+- The `gh-pages` branch contains only the built application
+- The GitHub repository must have GitHub Pages enabled and configured to use the `gh-pages` branch
 
 ## Manual Deployment
 
