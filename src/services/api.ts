@@ -1,5 +1,6 @@
 import api from './axiosConfig';
 import { Tenant } from '../types/api';
+import axios from 'axios';
 
 // Tenant API endpoints
 export const tenantsApi = {
@@ -123,6 +124,56 @@ export const agentApi = {
       
     } catch (error) {
       console.error('Error making outbound call:', error);
+      throw error;
+    }
+  },
+  
+  // Send SMS
+  sendSms: async (phoneNumber: string): Promise<string> => {
+    try {
+      // Create a new axios instance for the agent API
+      const agentApiUrl = 'https://collect-ai-agent-337679415316.us-central1.run.app';
+      
+      // Format phone number to ensure it has +1 at the beginning
+      let formattedNumber = phoneNumber;
+      
+      // First remove all non-digit characters
+      const digitsOnly = phoneNumber.replace(/\D/g, '');
+      
+      // Ensure it has +1 prefix
+      if (phoneNumber.startsWith('+1')) {
+        // Already in correct format
+        formattedNumber = phoneNumber;
+      } else if (phoneNumber.startsWith('1')) {
+        // Has 1 but missing +
+        formattedNumber = '+' + phoneNumber;
+      } else {
+        // Missing country code completely
+        formattedNumber = '+1' + digitsOnly;
+      }
+      
+      console.log('Sending SMS to:', formattedNumber);
+      
+      // Directly construct the form data string
+      const formBody = `to_number=${encodeURIComponent(formattedNumber)}`;
+      console.log('Form body:', formBody);
+      
+      // Use axios with form-urlencoded
+      const response = await axios.post(
+        `${agentApiUrl}/sms/start`, 
+        formBody, 
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        }
+      );
+      
+      console.log('SMS response:', response.data);
+      return response.data;
+      
+    } catch (error) {
+      console.error('Error sending SMS:', error);
       throw error;
     }
   }

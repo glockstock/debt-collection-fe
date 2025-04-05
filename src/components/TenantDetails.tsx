@@ -14,6 +14,8 @@ function TenantDetails() {
   const [error, setError] = useState<string | null>(null)
   const [isCallInProgress, setIsCallInProgress] = useState<boolean>(false)
   const [callStatus, setCallStatus] = useState<string | null>(null)
+  const [isSmsInProgress, setIsSmsInProgress] = useState<boolean>(false)
+  const [smsStatus, setSmsStatus] = useState<string | null>(null)
   
   useEffect(() => {
     const fetchTenantDetails = async () => {
@@ -90,6 +92,57 @@ function TenantDetails() {
       setTimeout(() => {
         setIsCallInProgress(false);
         setCallStatus(null);
+      }, 5000);
+    }
+  };
+  
+  const handleSendSms = async () => {
+    if (!tenant || !tenant.phone_number) return;
+    
+    try {
+      console.log('Tenant phone number for SMS:', tenant.phone_number);
+      
+      setIsSmsInProgress(true);
+      setSmsStatus('Sending text message...');
+      
+      const response = await agentApi.sendSms(tenant.phone_number);
+      console.log('SMS API response:', response);
+      
+      setSmsStatus('Text message sent successfully!');
+      
+      // Reset status after a few seconds
+      setTimeout(() => {
+        setIsSmsInProgress(false);
+        setSmsStatus(null);
+      }, 3000);
+      
+    } catch (error: any) {
+      console.error('Failed to send SMS:', error);
+      
+      // Extract more specific error message if available
+      let errorMessage = 'Failed to send text message. Please try again.';
+      
+      if (error.response) {
+        console.log('SMS Error response:', error.response);
+        
+        if (error.response.data) {
+          if (typeof error.response.data === 'string') {
+            errorMessage = `Error: ${error.response.data}`;
+          } else if (error.response.data.message) {
+            errorMessage = `Error: ${error.response.data.message}`;
+          }
+        }
+        
+        errorMessage += ` (Status: ${error.response.status})`;
+      } else if (error.message) {
+        errorMessage = `Error: ${error.message}`;
+      }
+      
+      setSmsStatus(errorMessage);
+      
+      setTimeout(() => {
+        setIsSmsInProgress(false);
+        setSmsStatus(null);
       }, 5000);
     }
   };
@@ -187,21 +240,28 @@ function TenantDetails() {
           <button 
             className="contact-button" 
             onClick={handleMakeCall}
-            disabled={isCallInProgress}
+            disabled={isCallInProgress || isSmsInProgress}
           >
             {isCallInProgress ? 'Calling...' : 'Contact via Call'}
           </button>
           <button 
             className="contact-button"
-            onClick={() => window.open(`sms:${tenant.phone_number}`)}
+            onClick={handleSendSms}
+            disabled={isCallInProgress || isSmsInProgress}
           >
-            Contact via Text
+            {isSmsInProgress ? 'Sending...' : 'Contact via Text'}
           </button>
         </div>
         
         {callStatus && (
           <div className={`call-status ${callStatus.includes('Failed') ? 'error' : 'success'}`}>
             {callStatus}
+          </div>
+        )}
+        
+        {smsStatus && (
+          <div className={`call-status ${smsStatus.includes('Failed') ? 'error' : 'success'}`}>
+            {smsStatus}
           </div>
         )}
         
