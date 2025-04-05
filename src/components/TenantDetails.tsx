@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import '../App.css'
 import { Building } from '../icons/Building'
-import { tenantsApi } from '../services/api'
+import { tenantsApi, agentApi } from '../services/api'
 import { Tenant } from '../types/api'
 import { formatCurrency, calculateDaysPastDue } from '../utils/formatters'
 
@@ -12,6 +12,8 @@ function TenantDetails() {
   const [tenant, setTenant] = useState<Tenant | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
+  const [isCallInProgress, setIsCallInProgress] = useState<boolean>(false)
+  const [callStatus, setCallStatus] = useState<string | null>(null)
   
   useEffect(() => {
     const fetchTenantDetails = async () => {
@@ -39,6 +41,58 @@ function TenantDetails() {
   const handleBackClick = () => {
     navigate('/dashboard')
   }
+
+  const handleMakeCall = async () => {
+    if (!tenant || !tenant.phone_number) return;
+    
+    try {
+      console.log('Tenant phone number:', tenant.phone_number);
+      console.log('Tenant data:', tenant);
+      
+      setIsCallInProgress(true);
+      setCallStatus('Initiating call...');
+      
+      const response = await agentApi.makeOutboundCall(tenant.phone_number);
+      console.log('Call API response:', response);
+      
+      setCallStatus('Call initiated successfully!');
+      
+      // Reset status after a few seconds
+      setTimeout(() => {
+        setIsCallInProgress(false);
+        setCallStatus(null);
+      }, 3000);
+      
+    } catch (error: any) {
+      console.error('Failed to make call:', error);
+      
+      // Extract more specific error message if available
+      let errorMessage = 'Failed to initiate call. Please try again.';
+      
+      if (error.response) {
+        console.log('Error response:', error.response);
+        
+        if (error.response.data) {
+          if (typeof error.response.data === 'string') {
+            errorMessage = `Error: ${error.response.data}`;
+          } else if (error.response.data.message) {
+            errorMessage = `Error: ${error.response.data.message}`;
+          }
+        }
+        
+        errorMessage += ` (Status: ${error.response.status})`;
+      } else if (error.message) {
+        errorMessage = `Error: ${error.message}`;
+      }
+      
+      setCallStatus(errorMessage);
+      
+      setTimeout(() => {
+        setIsCallInProgress(false);
+        setCallStatus(null);
+      }, 5000);
+    }
+  };
 
   // Render loading state
   if (isLoading) {
@@ -132,9 +186,10 @@ function TenantDetails() {
         <div className="action-buttons">
           <button 
             className="contact-button" 
-            onClick={() => window.open(`tel:${tenant.phone_number}`)}
+            onClick={handleMakeCall}
+            disabled={isCallInProgress}
           >
-            Contact via Call
+            {isCallInProgress ? 'Calling...' : 'Contact via Call'}
           </button>
           <button 
             className="contact-button"
@@ -143,6 +198,12 @@ function TenantDetails() {
             Contact via Text
           </button>
         </div>
+        
+        {callStatus && (
+          <div className={`call-status ${callStatus.includes('Failed') ? 'error' : 'success'}`}>
+            {callStatus}
+          </div>
+        )}
         
         <button className="edit-button">Edit Tenant</button>
         <button className="delete-button">Delete Tenant</button>
