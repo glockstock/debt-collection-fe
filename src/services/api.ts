@@ -1,6 +1,5 @@
 import api from './axiosConfig';
 import { Tenant } from '../types/api';
-import axios from 'axios';
 
 // Tenant API endpoints
 export const tenantsApi = {
