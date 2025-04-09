@@ -4,6 +4,7 @@ import SplashPage from './components/SplashPage'
 import Dashboard from './components/Dashboard'
 import TenantDetails from './components/TenantDetails'
 import NewTenant from './components/NewTenant'
+import EditTenant from './components/EditTenant'
 import './App.css'
 
 // Component to handle redirection from 404.html
@@ -33,6 +34,7 @@ function App() {
         <Route path="/" element={<SplashPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/tenant/:tenantId" element={<TenantDetails />} />
+        <Route path="/tenant/:tenantId/edit" element={<EditTenant />} />
         <Route path="/new-tenant" element={<NewTenant />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

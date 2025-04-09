@@ -55,11 +55,31 @@ export const tenantsApi = {
   },
 
   // Update a tenant
-  updateTenant: async (id: string, tenant: Partial<Tenant>): Promise<Tenant> => {
+  updateTenant: async (tenant: Tenant): Promise<Tenant> => {
     try {
-      return await api.put(`/tenant/update/${id}`, tenant);
+      // Ensure tenant data matches expected API format from Swagger UI
+      const tenantData = {
+        id: tenant.id,
+        first_name: tenant.first_name,
+        last_name: tenant.last_name,
+        phone_number: tenant.phone_number,
+        email: tenant.email,
+        property: tenant.property,
+        debt_amount: tenant.debt_amount,
+        debt_date: tenant.debt_date,
+        thread_id: tenant.thread_id,
+        assistant_id: tenant.assistant_id
+      };
+      
+      console.log('Updating tenant with data:', tenantData);
+      
+      // Our axiosConfig automatically extracts response.data via interceptor
+      const response = await api.put<any, Tenant>('/tenant/update', tenantData);
+      console.log('Update tenant response:', response);
+      
+      return response;
     } catch (error) {
-      console.error(`Error updating tenant with ID ${id}:`, error);
+      console.error(`Error updating tenant with ID ${tenant.id}:`, error);
       throw error;
     }
   },

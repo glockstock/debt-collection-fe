@@ -265,7 +265,12 @@ function TenantDetails() {
           </div>
         )}
         
-        <button className="edit-button">Edit Tenant</button>
+        <button 
+          className="edit-button"
+          onClick={() => navigate(`/tenant/${tenant.id}/edit`)}
+        >
+          Edit Tenant
+        </button>
         <button className="delete-button">Delete Tenant</button>
       </div>
     </div>
