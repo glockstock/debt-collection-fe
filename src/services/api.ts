@@ -87,7 +87,17 @@ export const tenantsApi = {
   // Delete a tenant
   deleteTenant: async (id: string): Promise<void> => {
     try {
-      return await api.delete(`/tenant/delete/${id}`);
+      // API expects a JSON body with the id
+      const tenantData = { id };
+      console.log('Deleting tenant with ID:', id);
+      
+      // Send DELETE request with the tenant ID in the request body
+      await api.delete('/tenant/delete/', { 
+        data: tenantData // axios delete with request body
+      });
+      console.log('Tenant deleted successfully');
+      
+      return;
     } catch (error) {
       console.error(`Error deleting tenant with ID ${id}:`, error);
       throw error;

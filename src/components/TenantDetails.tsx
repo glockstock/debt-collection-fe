@@ -16,6 +16,8 @@ function TenantDetails() {
   const [callStatus, setCallStatus] = useState<string | null>(null)
   const [isSmsInProgress, setIsSmsInProgress] = useState<boolean>(false)
   const [smsStatus, setSmsStatus] = useState<string | null>(null)
+  const [isDeleting, setIsDeleting] = useState<boolean>(false)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<boolean>(false)
   
   useEffect(() => {
     const fetchTenantDetails = async () => {
@@ -147,6 +149,32 @@ function TenantDetails() {
     }
   };
 
+  const handleDeleteClick = () => {
+    setShowDeleteConfirm(true);
+  };
+  
+  const handleCancelDelete = () => {
+    setShowDeleteConfirm(false);
+  };
+  
+  const handleConfirmDelete = async () => {
+    if (!tenant) return;
+    
+    try {
+      setIsDeleting(true);
+      
+      await tenantsApi.deleteTenant(tenant.id);
+      
+      // Redirect to dashboard after successful deletion
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Error deleting tenant:', error);
+      setError('Failed to delete tenant. Please try again.');
+      setShowDeleteConfirm(false);
+      setIsDeleting(false);
+    }
+  };
+
   // Render loading state
   if (isLoading) {
     return (
@@ -240,14 +268,14 @@ function TenantDetails() {
           <button 
             className="contact-button" 
             onClick={handleMakeCall}
-            disabled={isCallInProgress || isSmsInProgress}
+            disabled={isCallInProgress || isSmsInProgress || isDeleting}
           >
             {isCallInProgress ? 'Calling...' : 'Contact via Call'}
           </button>
           <button 
             className="contact-button"
             onClick={handleSendSms}
-            disabled={isCallInProgress || isSmsInProgress}
+            disabled={isCallInProgress || isSmsInProgress || isDeleting}
           >
             {isSmsInProgress ? 'Sending...' : 'Contact via Text'}
           </button>
@@ -268,10 +296,44 @@ function TenantDetails() {
         <button 
           className="edit-button"
           onClick={() => navigate(`/tenant/${tenant.id}/edit`)}
+          disabled={isDeleting}
         >
           Edit Tenant
         </button>
-        <button className="delete-button">Delete Tenant</button>
+        <button 
+          className="delete-button"
+          onClick={handleDeleteClick}
+          disabled={isDeleting}
+        >
+          {isDeleting ? 'Deleting...' : 'Delete Tenant'}
+        </button>
+        
+        {/* Delete confirmation dialog */}
+        {showDeleteConfirm && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h3>Confirm Delete</h3>
+              <p>Are you sure you want to delete {tenant.first_name} {tenant.last_name}?</p>
+              <p className="warning-text">This action cannot be undone.</p>
+              <div className="modal-buttons">
+                <button 
+                  className="cancel-button"
+                  onClick={handleCancelDelete}
+                  disabled={isDeleting}
+                >
+                  Cancel
+                </button>
+                <button 
+                  className="confirm-delete-button"
+                  onClick={handleConfirmDelete}
+                  disabled={isDeleting}
+                >
+                  {isDeleting ? 'Deleting...' : 'Delete'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
