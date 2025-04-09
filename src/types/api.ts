@@ -9,6 +9,7 @@ export interface Tenant {
   phone_number: string;
   created_at: string;
   debt_date: string;
+  property: string;
 }
 
 export interface ApiError {

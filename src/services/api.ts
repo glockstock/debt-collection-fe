@@ -29,7 +29,25 @@ export const tenantsApi = {
   // Create a new tenant
   createTenant: async (tenant: Omit<Tenant, 'id' | 'created_at' | 'thread_id' | 'assistant_id'>): Promise<Tenant> => {
     try {
-      return await api.post('/tenant/create/', tenant);
+      // Ensure tenant data matches expected API format from Swagger UI
+      const tenantData = {
+        first_name: tenant.first_name,
+        last_name: tenant.last_name,
+        phone_number: tenant.phone_number,
+        email: tenant.email,
+        property: tenant.property,
+        debt_amount: tenant.debt_amount,
+        debt_date: tenant.debt_date
+      };
+      
+      console.log('Creating tenant with data:', tenantData);
+      
+      // Our axiosConfig automatically extracts response.data via interceptor
+      // Use any as intermediate type to help TypeScript understand the transformation
+      const response = await api.post<any, Tenant>('/tenant/create/', tenantData);
+      console.log('Create tenant response:', response);
+      
+      return response;
     } catch (error) {
       console.error('Error creating tenant:', error);
       throw error;

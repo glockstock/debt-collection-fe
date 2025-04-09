@@ -65,6 +65,7 @@ function NewTenant() {
           debt_amount: parseFloat(formData.debt_amount),
           phone_number: formData.phone_number,
           email: formData.email,
+          property: formData.property,
           debt_date: formData.debt_date
         });
         
